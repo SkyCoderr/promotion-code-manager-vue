@@ -55,8 +55,14 @@ onDecode(result: string) {
 
 validateScanResult(scanResult: PromotionCode) {
   // validate if it's the correct instance or if it's a usable code
-  return 'key' in scanResult && 'discount' in scanResult && 'expiry_date' in scanResult? true : false;
+  return 'key' in scanResult && 'discount' in scanResult && 'unit' in scanResult && 'expiry_date' in scanResult? true : false;
 }
 
 }
 </script>
+
+<style lang="css" scoped>
+#video {
+    padding-top: 20px;
+}
+</style>
