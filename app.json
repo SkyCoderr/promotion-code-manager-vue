@@ -1,0 +1,18 @@
+{
+    "name": "Promotion Code Manager",
+    "description": "Reads and generates promotion codes.",
+    "repository": "https://github.com/SkyCoderr/promotion-code-manager-vue",
+    "logo": "https://small-sharp-tool.com/logo.svg",
+    "formation": {
+      "web": {
+        "quantity": 1,
+        "size": "standard-1x"
+      }
+    },
+    "image": "heroku/nodejs",
+    "buildpacks": [
+      {
+        "url": "heroku/nodejs"
+      }
+    ]
+  }
