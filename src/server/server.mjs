@@ -6,4 +6,4 @@ app.use(express.static('@/../dist'));
 app.get(/.*/, (req, res) => res.sendFile('@/../dist/index.html'));
 
 const port = 8000;
-app.listen(port, () => console.log(`Server started at localhost:${port}.`));
+app.listen(process.env.PORT || port, () => console.log(`Server started at localhost:${port}.`));
