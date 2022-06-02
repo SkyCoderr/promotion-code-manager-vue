@@ -1,12 +1,43 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/scan">Scan</router-link> |
-      <router-link to="/generate">Generate</router-link>
+      <TabBar v-model="selectedTab" :source="tabs" />
     </div>
-    <router-view />
+    <Scan v-if="selectedTab==='scan'" />
+    <Generate v-else />
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import TabBar from './components/TabBar.vue';
+import Generate from './views/Generate.vue';
+import Scan from './views/Scan.vue';
+
+@Component({
+  components: {
+    TabBar,
+    Generate,
+    Scan
+  },
+})
+export default class App extends Vue {
+  tabs = [
+    {
+      id: 'scan',
+      value: 'scan',
+      label: 'Scan',
+    },
+    {
+      id: 'generate',
+      value: 'generate',
+      label: 'Generate',
+    },
+  ];
+
+  selectedTab = 'scan';
+}
+</script>
 
 <style>
 #app {
