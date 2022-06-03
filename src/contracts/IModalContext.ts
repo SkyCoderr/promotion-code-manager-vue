@@ -1,9 +1,7 @@
 import Unit from './Unit';
 
-export default interface PromotionCode {
-  key: string;
+export default interface IModalContext {
   discount: number;
   unit: Unit;
   expiryDate: Date;
-  generatedDate: Date;
 }
