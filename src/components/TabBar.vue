@@ -54,6 +54,7 @@ export default class Scan extends Vue {
 .tab:hover {
   font-size: 20px;
   background-color: rgb(255, 181, 141);
+  border-radius: 20px;
   padding: 10px;
 }
 </style>
