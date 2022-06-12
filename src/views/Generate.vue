@@ -12,7 +12,11 @@
           <div>Discount</div>
           <div>
             <BFormInput id="modal-text-input" v-model="discount" size="sm" :number="true" />
-            <BFormSelect id="modal-select" v-model="selectedUnit" :options="unitOptions" />
+            <div id="modal-select">
+              <select v-model="selectedUnit">
+                <option v-for="unitOption in unitOptions" :key="unitOption.value" :value="unitOption.value">{{ unitOption.text }}</option>
+              </select>
+            </div>
           </div>
         </div>
         <div id="modal-expiry-date">
@@ -36,6 +40,9 @@
 import { Component, Vue } from "vue-property-decorator";
 import { BTable, BButton, BModal, BFormInput, BFormSelect, BCalendar } from 'bootstrap-vue';
 import Unit from '../contracts/Unit';
+import { Action } from 'vuex-class';
+import IModalContexts from '@/contracts/IModalContext';
+import { AxiosResponse } from 'axios';
 
 @Component({
   components: {
@@ -53,6 +60,9 @@ export default class Generate extends Vue {
   discount = 0;
   selectedUnit = 'pounds';
   selectedDate = this.minDate;
+
+  @Action 
+  generateCode!: (modalContexts: IModalContexts) => Promise<AxiosResponse>;
   
   get unitOptions() {
     return Object.keys(Unit).map(key => ({ text: key, value: (Unit as any)[key] }));
@@ -82,13 +92,24 @@ export default class Generate extends Vue {
     },
   ];
 
-  confirmCreation() {
+  async confirmCreation() {
     this.modalError = false;
     if (this.selectedUnit === Unit.Percents && (this.discount <= 0 || this.discount > 100)) {
       this.modalError = true;
       return;
     }
-    // generate code
+    // compose the generateCode payload
+    const modalContexts: IModalContexts = {
+      discount: this.discount,
+      unit: this.selectedUnit as Unit,
+      expiryDate: new Date(this.selectedDate),
+    };
+    // send network request to generate code and get the result
+    const result = await this.generateCode(modalContexts);
+    if (result.status === 200) {
+      const item = result.data;
+      this.items.push(item);
+    }
     this.resetModal();
   }
 
