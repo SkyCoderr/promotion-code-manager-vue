@@ -21,7 +21,7 @@
         </div>
         <div id="modal-expiry-date">
           <div>Expiry Date</div>
-          <BCalendar v-model="selectedDate" :min="minDate" block hide-header locale="en" />
+          <input type="date" v-model="selectedDate" :min="minDate">
         </div>
       </template>
       <template slot="modal-footer">
@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { BTable, BButton, BModal, BFormInput, BFormSelect, BCalendar } from 'bootstrap-vue';
+import { BTable, BButton, BModal, BFormInput, BFormSelect } from 'bootstrap-vue';
 import Unit from '../contracts/Unit';
 import { Action } from 'vuex-class';
 import IModalContexts from '@/contracts/IModalContext';
@@ -51,7 +51,6 @@ import { AxiosResponse } from 'axios';
     BModal,
     BFormInput,
     BFormSelect,
-    BCalendar,
   },
 })
 export default class Generate extends Vue {
@@ -70,7 +69,7 @@ export default class Generate extends Vue {
 
   get minDate() {
     const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const today = now.toISOString().split('T')[0];
     return today;
   }
 
