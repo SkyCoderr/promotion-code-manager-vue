@@ -55,10 +55,10 @@ import { Axios, AxiosResponse } from 'axios';
   },
 })
 export default class Generate extends Vue {
-  showModal: boolean = false;
-  modalError: boolean = false;
-  discount: number = 0;
-  selectedUnit: string = 'pounds';
+  showModal = false;
+  modalError = false;
+  discount = 0;
+  selectedUnit = 'pounds';
   selectedDate: string = this.minDate;
   items: IPromotionCode[] = [];
 
