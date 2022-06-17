@@ -18,6 +18,7 @@ api.post('/generate', (req, res) => {
     db.collection('codes').insertOne(generatedCode, (error, result) => {
       if (result?.acknowledged) {
         res.status(200).send(generatedCode);
+        return;
       }
       res.status(500).send(error);
     });
