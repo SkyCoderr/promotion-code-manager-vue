@@ -42,7 +42,8 @@ import { BTable, BButton, BModal, BFormInput, BFormSelect } from 'bootstrap-vue'
 import Unit from '../contracts/Unit';
 import { Action } from 'vuex-class';
 import IModalContexts from '@/contracts/IModalContext';
-import { AxiosResponse } from 'axios';
+import IPromotionCode from '@/contracts/IPromotionCode';
+import { Axios, AxiosResponse } from 'axios';
 
 @Component({
   components: {
@@ -58,10 +59,14 @@ export default class Generate extends Vue {
   modalError = false;
   discount = 0;
   selectedUnit = 'pounds';
-  selectedDate = this.minDate;
+  selectedDate: string = this.minDate;
+  items: IPromotionCode[] = [];
 
   @Action 
   generateCode!: (modalContexts: IModalContexts) => Promise<AxiosResponse>;
+
+  @Action 
+  getCodes!: () => Promise<AxiosResponse>;
   
   get unitOptions() {
     return Object.keys(Unit).map(key => ({ text: key, value: (Unit as any)[key] }));
@@ -73,23 +78,9 @@ export default class Generate extends Vue {
     return today;
   }
 
-  items = [
-    {
-      name: 'Kelly',
-      age: 26,
-      gender: 'Male',
-    },
-    {
-      name: 'Fiona',
-      age: 26,
-      gender: 'Female',
-    },
-    {
-      name: 'Jayon',
-      age: 27,
-      gender: 'Male',
-    },
-  ];
+  mounted() {
+    this.getCodes().then((result: AxiosResponse) => this.items = result.data);
+  }
 
   async confirmCreation() {
     this.modalError = false;
@@ -106,7 +97,7 @@ export default class Generate extends Vue {
     // send network request to generate code and get the result
     const result = await this.generateCode(modalContexts);
     if (result.status === 200) {
-      const item = result.data;
+      const item: IPromotionCode = result.data;
       this.items.push(item);
     }
     this.resetModal();

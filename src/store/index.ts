@@ -11,6 +11,10 @@ export default new Vuex.Store({
   actions: {
     async generateCode({commit, state}, modalContexts: IModalContexts) {
       return axios.post('/api/generate', modalContexts);
+    },
+
+    async getCodes({commit, state}) {
+      return axios.get('/api/codes');
     }
   },
   modules: {},

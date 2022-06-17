@@ -6,4 +6,5 @@ export default interface PromotionCode {
   unit: Unit;
   expiryDate: Date;
   generatedDate: Date;
+  used: boolean;
 }

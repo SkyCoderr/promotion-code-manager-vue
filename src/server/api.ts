@@ -11,9 +11,9 @@ const db = (await client.connect()).db('pcm');
 
 const api = express.Router();
 
-api.post('/generate', (req, res) => {
+api.post('/generate', async (req, res) => {
   const body = req.body;
-  const generatedCode: IPromotionCode = generateCode(body);
+  const generatedCode: IPromotionCode = await generateCode(body);
   try {
     db.collection('codes').insertOne(generatedCode, (error, result) => {
       if (result?.acknowledged) {
@@ -26,6 +26,17 @@ api.post('/generate', (req, res) => {
   catch (error) {
     res.status(500).send(error);
   }
+})
+
+api.get('/codes', async (req, res) => {
+  try {
+    const result = await db.collection('codes').find().toArray();
+    res.status(200).send(result);
+  }
+  catch (error) {
+    res.status(500).send(error);
+  }
+
 })
 
 export default api;
