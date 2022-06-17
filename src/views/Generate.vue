@@ -21,7 +21,7 @@
         </div>
         <div id="modal-expiry-date">
           <div>Expiry Date</div>
-          <input type="date" v-model="selectedDate" :min="minDate">
+          <input id="calendar" type="date" v-model="selectedDate" :min="minDate">
         </div>
       </template>
       <template slot="modal-footer">
@@ -135,6 +135,9 @@ export default class Generate extends Vue {
 }
 #modal-expiry-date {
   margin-top: 60px;
+}
+#calendar {
+  width: 100%;
 }
 #modal-text-input {
   float: left;
