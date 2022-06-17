@@ -9,6 +9,7 @@ function generateCode(body: IModalContext): IPromotionCode {
   const generatedCode: IPromotionCode = {
     key,
     generatedDate,
+    used: false,
     ...body
   };
   return generatedCode;
